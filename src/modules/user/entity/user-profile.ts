@@ -26,7 +26,7 @@ export class UserProfile {
   @Column({ type: "text" })
   public title?: string;
   @ManyToMany(() => Profession, (profession_id) => profession_id.id)
-  public profession?: Profession;
+  public profession_id?: Profession;
 
   @OneToMany(()=> UserSkill, (user_skills)=> user_skills.userProfile )
   public user_skills?: UserSkill[];
