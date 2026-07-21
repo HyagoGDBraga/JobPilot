@@ -8,10 +8,11 @@ import {
   ManyToMany,
   ManyToOne,
   JoinTable,
+  OneToMany,
 } from "typeorm";
 import { User } from "./user";
 import { Profession } from "../../profession/entity/profession-entity";
-import { Skill } from "../../skills/entity/skill-entity";
+import { UserSkill } from "./user-skill-entity";
 @Entity("user-profile")
 export class UserProfile {
   @PrimaryGeneratedColumn("uuid")
@@ -26,8 +27,9 @@ export class UserProfile {
   public title?: string;
   @ManyToMany(() => Profession, (profession_id) => profession_id.id)
   public profession?: Profession;
-  @Column({ type: "array" })
-  public skills?: Skill[];
+
+  @OneToMany(()=> UserSkill, (user_skills)=> user_skills.userProfile )
+  public user_skills?: UserSkill[];
   @Column({ type: "int", default: 0 })
   public experienceYears?: number;
 
