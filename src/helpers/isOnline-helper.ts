@@ -1,4 +1,4 @@
-import { User } from "../modules/user/entity/user";
+import { User } from "../domains/user/entity/user";
 import { tokenHelper } from "./token-helper";
 const online = new Map<string, User>();
 

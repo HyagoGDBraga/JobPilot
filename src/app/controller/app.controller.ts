@@ -1,7 +1,7 @@
 import { Request, Response} from "express";
-import { asyncHandler } from "../../../helpers/asyncHandler";
+import { asyncHandler } from "../../helpers/asyncHandler";
 import { App_Service } from "../service/app.service";
-import { ServerError } from "../../../errors/server-error";
+import { ServerError } from "../../errors/server-error";
 export class App_Controller {
     private readonly app_service: App_Service;
     constructor(app_service: App_Service){

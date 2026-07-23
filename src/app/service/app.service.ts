@@ -1,4 +1,4 @@
-import { env } from "../../../env/env.zod";
+import { env } from "../../env/env.zod";
 const url_server = env.SERVER_URL as string;
 const port = env.PORT || 3000;
 export class App_Service {

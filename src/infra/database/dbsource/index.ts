@@ -1,5 +1,5 @@
 import { DataSource } from "typeorm";
-import { env } from "../../../../env/env.zod";
+import { env } from "../../../env/env.zod";
 const database_host = env.DATABASE_HOST as string;
 const database_name = env.DATABASE_NAME as string;
 const database_user = env.DATABASE_USER as string;

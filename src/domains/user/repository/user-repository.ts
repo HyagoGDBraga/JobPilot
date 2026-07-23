@@ -1,9 +1,7 @@
 import { User } from "../entity/user";
 import { Repository } from "typeorm";
-import dataSource from "../../infra/database/dbsource";
+import dataSource from "../../../infra/database/dbsource";
 import { pagination } from "../../../helpers/pagination.helper";
-import { Null_Object_Error } from "../../../errors/null-object-error";
-import { NoDataError } from "../../../errors/data-error";
 export class UserRepository {
   private readonly userRepository: Repository<User>;
   constructor() {

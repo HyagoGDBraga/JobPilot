@@ -1,6 +1,6 @@
 import { DataSource } from "typeorm";
 import dataSource from "../dbsource"
-import { Initialize_Error } from "../../../../errors/initialize-error";
+import { Initialize_Error } from "../../../errors/initialize-error";
 export class Db_Service { 
  
     dbIsRunning = async()=>{

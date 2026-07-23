@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { Db_Service } from "../service/db.service";
-import { asyncHandler } from "../../../../helpers/asyncHandler";
+import { asyncHandler } from "../../../helpers/asyncHandler";
 export class Db_Controller {
   private readonly db_service: Db_Service;
   constructor(db_Service: Db_Service) {
