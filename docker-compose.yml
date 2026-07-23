@@ -5,12 +5,12 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: node-app
+    container_name: jobPilot
     restart: unless-stopped
     ports:
       - "3000:3000"
     env_file:
-      - .env
+      - .env.development
     volumes:
       - .:/app
       - /app/node_modules

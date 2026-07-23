@@ -3,6 +3,7 @@ import { Repository } from "typeorm";
 import dataSource from "../../infra/database/dbsource";
 import { pagination } from "../../../helpers/pagination.helper";
 import { Null_Object_Error } from "../../../errors/null-object-error";
+import { NoDataError } from "../../../errors/data-error";
 export class UserRepository {
   private readonly userRepository: Repository<User>;
   constructor() {
@@ -15,7 +16,6 @@ export class UserRepository {
 
   getUserById = async (id: string): Promise<User | null> => {
     const object = await this.userRepository.findOne({ where: { id } });
-    if (object == null) throw new Null_Object_Error();
     return object;
   };
 
@@ -24,11 +24,20 @@ export class UserRepository {
     return this.userRepository.save(object);
   };
 
-  updateUser = async (id: string, data: User): Promise<void> => {
+  updateUser = async (id: string, data: User): Promise<User | null> => {
     const user = await this.getUserById(id);
-    if (user == null) throw new Null_Object_Error();
     await this.userRepository.update(id, data);
+    return user;
   };
 
-  patchUser = async (id: string, data?: User): Promise<void> => {};
+  deleteUser = async(id: string): Promise<boolean> =>{
+    await this.userRepository.delete(id);
+    return true;
+  };
+
+  patchUser = async (id: string, data: Partial<User>): Promise<User | null> => {
+    const user = await this.getUserById(id);
+    await this.userRepository.update(id, data);
+    return user;
+  };
 }
