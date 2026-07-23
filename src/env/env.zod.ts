@@ -28,6 +28,7 @@ export const envZod = z.object({
 
   ALLOWED_DOMAINS: z.string(),
   SERVER_URL: z.string(),
+  REDIS_URL: z.string(),
 
   LOG_LEVEL: z.enum(["debug", "info", "warn", "error"]).default("info"),
 });

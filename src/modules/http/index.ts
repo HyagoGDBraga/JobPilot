@@ -1,3 +1,4 @@
+import { startRedis_connection } from './../../cache/redis/redis';
 import express from "express";
 import cors from "cors";
 import { allowedDomains } from "../../env/env.zod";
