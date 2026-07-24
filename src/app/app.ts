@@ -1,6 +1,6 @@
 import application from "../http";
 import { env } from "../env/env.zod";
-import { startRedis_connection } from "../cache/redis/redis";
+import { startRedis_connection } from "../infra/cache/redis/redis";
 const PORT = env.PORT || 3000;
 async function bootstrap(){
     try{

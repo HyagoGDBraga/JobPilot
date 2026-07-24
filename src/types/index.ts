@@ -5,3 +5,8 @@ export type ServiceResult<T = void> = {
   message?: string;
   timestamp: Date;
 };
+
+export type HealthCheckResult<T = any> = {
+    result: T;
+    message?: string
+};
