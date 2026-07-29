@@ -1,4 +1,4 @@
-import { startRedis_connection } from "../cache/redis/redis";
+import "reflect-metadata";
 import express from "express";
 import cors from "cors";
 import { allowedDomains } from "../env/env.zod";
@@ -6,6 +6,7 @@ import healthCheckRouter from "../app/router/app.route";
 import database_Source from "../infra/database/router/db.router";
 import hugging_FACE from "../domains/llm/router/ai.router";
 import { errorMiddleware } from "../middlewares/error-middleware";
+import rabbitRouter from "../infra/queue/rabbitmq/router/rabbit.router"; 
 const application = express();
 
 const corsOptions = {
@@ -26,6 +27,7 @@ application.use(cors(corsOptions));
 application.use("/", healthCheckRouter);
 application.use("/", database_Source);
 application.use("/ai", hugging_FACE);
+application.use("/", rabbitRouter);
 application.use(errorMiddleware);
 
 export default application;

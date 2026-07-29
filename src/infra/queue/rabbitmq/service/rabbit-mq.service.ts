@@ -1,9 +1,9 @@
 import { HealthCheckResult } from "../../../../types";
 import { RabbitMQ } from "../rabbit-mq";
 export class RabbitMQ_Service{
-    public rabbitMq: RabbitMQ; 
+    private readonly rabbitMq: RabbitMQ;    
     constructor(rabbitMq: RabbitMQ){
-        this.rabbitMq = rabbitMq; 
+        this.rabbitMq = rabbitMq;
     };
     healthCheck = async():Promise<HealthCheckResult>=>{
         try{
