@@ -37,7 +37,7 @@ export class BCrypt_Service {
     }
   };
 
-  //Implementar com ID de user
+  //Implementar com ID de user em um service password user info
   getHashedRounds = (): number[] | string => {
     try {
       return `Cost factor: \n` + this.getHashRounds;
@@ -75,7 +75,6 @@ export class BCrypt_Service {
     try {
       const compare = bcrypt.compareSync(object, hash);
       return compare;
-      return true;
     } catch (err) {
       throw err;
     }

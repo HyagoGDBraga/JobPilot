@@ -1,4 +1,5 @@
 import "express";
+import { ROLE } from "../../helpers/role-helper";
 
 declare global {
   namespace Express {
@@ -6,7 +7,7 @@ declare global {
       user?: {
         id: string;
         email: string;
-        role: string;
+        role: ROLE;
       };
 
       requestId?: string;

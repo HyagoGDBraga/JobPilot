@@ -22,6 +22,7 @@ export const envZod = z.object({
   JWT: z.string().min(32),
   JWT_REFRESH: z.string().min(32),
   JWT_EXPIRES_IN: z.string(),
+  REFRESH_EXPIRES_IN: z.string(),
 
   FRONTEND_URL: z.string().url(),
   UPLOAD_DIR: z.string(),
