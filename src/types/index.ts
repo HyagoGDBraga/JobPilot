@@ -10,3 +10,8 @@ export type HealthCheckResult<T = any> = {
     result: T;
     message?: string
 };
+
+export type InitializePromise<T=any>={
+  initialize: boolean;
+  result: T;
+};

@@ -38,7 +38,7 @@ export class BCrypt_Service {
   };
 
   //Implementar com ID de user em um service password user info
-  getHashedRounds = (): number[] | string => {
+  getHashedRounds = (userId: string): number[] | string => {
     try {
       return `Cost factor: \n` + this.getHashRounds;
     } catch (err) {
@@ -79,7 +79,4 @@ export class BCrypt_Service {
       throw err;
     }
   };
-
-
-
 }
