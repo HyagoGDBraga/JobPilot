@@ -14,7 +14,7 @@ export class RabbitMQController {
   });
 
   startConnection = asyncHandler(async (req: Request, res: Response) => {
-    const start = await this.rabbitMqService.startConnectionRabbitMQ();
+    const start = await this.rabbitMqService.initialize();
     res.status(200).json({
       message: `Okay`,
       start,

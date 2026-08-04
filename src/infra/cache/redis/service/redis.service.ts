@@ -10,7 +10,9 @@ export class RedisService {
   }
   startRedisConnection = async (): Promise<InitializePromise> => {
     try {
-      await cacheRedis.connect();
+      if (!cacheRedis.isOpen) {
+        await cacheRedis.connect();
+      }
       if (!cacheRedis.isReady) {
         throw new RedisError();
       }
@@ -35,6 +37,53 @@ export class RedisService {
         result: result,
         message: `Ok, redis is running!`,
       };
+    } catch (err) {
+      throw err;
+    }
+  };
+
+  setKey = async (
+    key: string,
+    value: string,
+    ttl?: number,
+  ): Promise<string | null> => {
+    try {
+      if (!key || !value) {
+        throw new UndefinedError();
+      }
+      if (ttl) {
+        const ch = await cacheRedis.set(key, value, { EX: ttl });
+        return ch;
+      }
+      return await cacheRedis.set(key, value);
+    } catch (err) {
+      throw err;
+    }
+  };
+  getKey = async (key: string): Promise<string | null> => {
+    try {
+      if (!key) {
+        throw new UndefinedError();
+      }
+      const cache = cacheRedis.get(key);
+      return cache;
+    } catch (err) {
+      throw err;
+    }
+  };
+  removeKey = async (key: string): Promise<void> => {
+    try {
+      if (!key) {
+        throw new UndefinedError();
+      }
+      await cacheRedis.del(key);
+    } catch (err) {
+      throw err;
+    }
+  };
+  ping = async (): Promise<string> => {
+    try {
+      return cacheRedis.ping();
     } catch (err) {
       throw err;
     }

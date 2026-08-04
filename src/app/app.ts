@@ -10,7 +10,7 @@ const PORT = env.PORT || 3000;
 async function bootstrap() {
   try {
     await redis.startRedisConnection();
-    await rabbitMq.startConnectionRabbitMQ();
+    await rabbitMq.initialize();
     application.listen(PORT, () => {
       console.log(`Running on ${PORT}`);
     });

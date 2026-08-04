@@ -1,18 +1,10 @@
 export const userKeys = {
+  all: (page: number, limit: number) =>
+    `users:page:${page}:limit:${limit}`,
 
-    getAll: (page: number, limit: number) => {
-        `getAll:user`;
-    },
+  byId: (id: string) =>
+    `users:${id}`,
 
-    getById: (id: string) => {
-        `getById:user`;
-    },
-
-    create: (data: any) => {
-        `create:user`
-    },
-    
-    update: (id: string, data: any) => {
-        `update:user`
-    }
+  email: (email: string) =>
+    `users:email:${email}`,
 };
