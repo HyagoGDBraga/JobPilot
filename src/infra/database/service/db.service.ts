@@ -1,13 +1,13 @@
 import { DataSource } from "typeorm";
 import dataSource from "../dbsource"
-import { Initialize_Error } from "../../../errors/initialize-error";
-export class Db_Service { 
+import { InitializeError } from "../../../errors/initialize-error";
+export class DbService { 
  
     dbIsRunning = async()=>{
         const result = await dataSource.initialize();
         const message: string = `Database is running!`
         if(!result){
-            throw new Initialize_Error();
+            throw new InitializeError();
         } 
         console.log(`Successful!! Database is CONNECTED!`);
         return {

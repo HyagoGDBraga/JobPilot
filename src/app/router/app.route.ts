@@ -1,11 +1,11 @@
 import { Router } from "express";
-import { App_Service } from "../service/app.service";
-import { App_Controller } from "../controller/app.controller";
-const app_controller = new App_Controller(new App_Service());
+import { AppService } from "../service/app.service";
+import { AppController } from "../controller/app.controller";
+const appController = new AppController(new AppService());
 
 
 const router = Router();
 
-router.get("/health-check", app_controller.health_check_app);
+router.get("/health-check", appController.healthCheckApp);
 
 export default router;

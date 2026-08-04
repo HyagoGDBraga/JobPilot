@@ -1,11 +1,11 @@
 import { Router } from "express";
-import { Db_Controller } from "../controller/db.controller";
-import { Db_Service } from "../service/db.service";
+import { DbController } from "../controller/db.controller";
+import { DbService } from "../service/db.service";
 import { dataBaseMiddleware } from "../../../middlewares/database.middleware";
 //import { authMiddleware } from "../../../../middlewares/token.middleware";
-const db_controller = new Db_Controller(new Db_Service());
+const dbController = new DbController(new DbService());
 const router =  Router();
 
-router.get("/health_database",dataBaseMiddleware, db_controller.health_Check_Database);
+router.get("/health_database",dataBaseMiddleware, dbController.healthCheckDatabase);
 
 export default router;

@@ -1,9 +1,9 @@
 import { Router } from "express";
-import { Redis_Service } from "../service/redis.service";
-import { Redis_Controller } from "../controller/redis.controller";
-const redis_c = new Redis_Controller(new Redis_Service());
+import { RedisService } from "../service/redis.service";
+import { RedisController } from "../controller/redis.controller";
+const redisController = new RedisController(new RedisService());
 const router = Router();
 
-router.get("/health-check-redids", redis_c.health_Check_Redis)
-router.post("/start_connection-redis", redis_c.start_Redis_Connection)
+router.get("/health-check-redids", redisController.health_Check_Redis)
+router.post("/start_connection-redis", redisController.start_Redis_Connection)
 export default router;

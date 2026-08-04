@@ -3,8 +3,8 @@ import express from "express";
 import cors from "cors";
 import { allowedDomains } from "../env/env.zod";
 import healthCheckRouter from "../app/router/app.route";
-import database_Source from "../infra/database/router/db.router";
-import hugging_FACE from "../domains/llm/router/ai.router";
+import databaseSource from "../infra/database/router/db.router";
+import huggingFaceRouter from "../domains/llm/router/ai.router";
 import { errorMiddleware } from "../middlewares/error-middleware";
 import rabbitRouter from "../infra/queue/rabbitmq/router/rabbit.router"; 
 const application = express();
@@ -25,8 +25,8 @@ const corsOptions = {
 application.use(express.json());
 application.use(cors(corsOptions));
 application.use("/", healthCheckRouter);
-application.use("/", database_Source);
-application.use("/ai", hugging_FACE);
+application.use("/", databaseSource);
+application.use("/ai", huggingFaceRouter);
 application.use("/", rabbitRouter);
 application.use(errorMiddleware);
 

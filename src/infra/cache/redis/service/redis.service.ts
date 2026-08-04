@@ -1,33 +1,33 @@
 import { HealthCheckResult, InitializePromise } from "../../../../types";
 import { RedisError } from "../../../../errors/redis-error";
-import { cache_redis } from "../redis";
+import { cacheRedis } from "../redis";
 import { UndefinedError } from "../../../../errors/undefined-error";
-export class Redis_Service {
+export class RedisService {
   constructor() {
-    cache_redis.on("error", (err) => {
+    cacheRedis.on("error", (err) => {
       console.error(`Error in initialize redis ${err}`);
     });
   }
-  startRedis_connection = async (): Promise<InitializePromise> => {
+  startRedisConnection = async (): Promise<InitializePromise> => {
     try {
-      await cache_redis.connect();
-      if (!cache_redis.isReady) {
+      await cacheRedis.connect();
+      if (!cacheRedis.isReady) {
         throw new RedisError();
       }
 
       console.log(`Redis running successful`);
       return {
         initialize: true,
-        result: cache_redis,
+        result: cacheRedis,
       };
     } catch (err) {
       throw err;
     }
   };
 
-  redis_Check_Health = async (): Promise<HealthCheckResult> => {
+  redisCheckHealth = async (): Promise<HealthCheckResult> => {
     try {
-      const result = await this.startRedis_connection();
+      const result = await this.startRedisConnection();
       if (result === undefined) {
         throw new UndefinedError();
       }

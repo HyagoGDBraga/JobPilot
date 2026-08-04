@@ -1,11 +1,11 @@
 import { Router } from "express";
-import { RabbitMQ_Controller } from "../controller/rabbit.controller";
-import { RabbitMQ_Service } from "../service/rabbit-mq.service";
+import { RabbitMQController } from "../controller/rabbit.controller";
+import { RabbitMQService } from "../service/rabbit-mq.service";
 import { RabbitMQ } from "../rabbit-mq";
 
 const rabbit = new RabbitMQ();
-const rabbitService = new RabbitMQ_Service(rabbit);
-const rabbitController = new RabbitMQ_Controller(rabbitService);
+const rabbitService = new RabbitMQService(rabbit);
+const rabbitController = new RabbitMQController(rabbitService);
 
 const router = Router();
 

@@ -1,13 +1,13 @@
-import { Redis_Service } from "../service/redis.service";
+import { RedisService } from "../service/redis.service";
 import { asyncHandler } from "../../../../helpers/asyncHandler";
 import { ServerError } from "../../../../errors/server-error";
 import { Request, Response } from "express";
 
-export class Redis_Controller {
-  constructor(private readonly redis_s: Redis_Service) {}
+export class RedisController {
+  constructor(private readonly redisService: RedisService) {}
 
   health_Check_Redis = asyncHandler(async (_req: Request, res: Response) => {
-    const check = await this.redis_s.redis_Check_Health();
+    const check = await this.redisService.redisCheckHealth();
 
     if (!check) {
       throw new ServerError();
@@ -21,7 +21,7 @@ export class Redis_Controller {
 
   start_Redis_Connection = asyncHandler(
     async (_req: Request, res: Response) => {
-      const result = await this.redis_s.startRedis_connection();
+      const result = await this.redisService.startRedisConnection();
 
       return res.status(200).json({
         message: "Redis connected successfully",

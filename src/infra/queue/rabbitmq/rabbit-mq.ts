@@ -1,6 +1,6 @@
 import amqp from "amqplib";
 import { env } from "../../../env/env.zod";
-const rabbit_URL = env.RABBITMQ_URL as string;
+const rabbitUrl = env.RABBITMQ_URL as string;
 
 export class RabbitMQ {
   public connection!: amqp.ChannelModel;
@@ -8,8 +8,9 @@ export class RabbitMQ {
  
   startConnectionRabbitMQ = async () => {
     try {
-      this.connection = await amqp.connect(rabbit_URL!);
+      this.connection = await amqp.connect(rabbitUrl!);
       this.channel = await this.connection.createChannel();
+       return this.channel;
     } catch (err) {
       if (err instanceof Error) {
         throw err;

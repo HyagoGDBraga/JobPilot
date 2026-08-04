@@ -1,15 +1,15 @@
 import application from "../http";
 import { env } from "../env/env.zod";
-import { Redis_Service } from "../infra/cache/redis/service/redis.service";
+import { RedisService } from "../infra/cache/redis/service/redis.service";
 import { RabbitMQ } from "../infra/queue/rabbitmq/rabbit-mq";
-import { RabbitMQ_Service } from "../infra/queue/rabbitmq/service/rabbit-mq.service";
-const redis = new Redis_Service();
-const rabbitMq = new RabbitMQ_Service(new RabbitMQ());
+import { RabbitMQService } from "../infra/queue/rabbitmq/service/rabbit-mq.service";
+const redis = new RedisService();
+const rabbitMq = new RabbitMQService(new RabbitMQ());
 
 const PORT = env.PORT || 3000;
 async function bootstrap() {
   try {
-    await redis.startRedis_connection();
+    await redis.startRedisConnection();
     await rabbitMq.startConnectionRabbitMQ();
     application.listen(PORT, () => {
       console.log(`Running on ${PORT}`);

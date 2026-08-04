@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
 import { UndefinedError } from "../../../errors/undefined-error";
-export class BCrypt_Service {
+export class BCryptService {
   private readonly hashsObjects: string[] = [];
   private readonly getHashRounds: number[] = [];
   genSalt = async (salt: number): Promise<string> => {

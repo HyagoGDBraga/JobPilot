@@ -1,14 +1,14 @@
 import { Request, Response} from "express";
 import { asyncHandler } from "../../helpers/asyncHandler";
-import { App_Service } from "../service/app.service";
+import { AppService } from "../service/app.service";
 import { ServerError } from "../../errors/server-error";
-export class App_Controller {
-    private readonly app_service: App_Service;
-    constructor(app_service: App_Service){
-        this.app_service = app_service;
+export class AppController {
+    private readonly appService: AppService;
+    constructor(appService: AppService){
+        this.appService = appService;
     }
-    health_check_app = asyncHandler(async(req: Request, res: Response)=>{
-        const result = await this.app_service.healthCheck();
+    healthCheckApp = asyncHandler(async(req: Request, res: Response)=>{
+        const result = await this.appService.healthCheck();
         if(!result){
             throw new ServerError();
         }

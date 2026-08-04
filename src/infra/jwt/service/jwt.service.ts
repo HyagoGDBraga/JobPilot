@@ -1,17 +1,17 @@
 import jwt, { JwtPayload, SignOptions } from "jsonwebtoken";
-import { payload_jwt } from "../payload/payload";
+import { payloadJwt } from "../payload/payload";
 import { env } from "../../../env/env.zod";
-import { Null_Object_Error } from "../../../errors/null-object-error";
-const access_token = env.JWT as string;
-const refresh_token = env.JWT_REFRESH as string;
+import { NullObjectError } from "../../../errors/null-object-error";
+const accessToken = env.JWT as string;
+const refreshToken = env.JWT_REFRESH as string;
 const expiresTime = env.JWT_EXPIRES_IN as SignOptions["expiresIn"];
-const refresh_expires_time = env.REFRESH_EXPIRES_IN as SignOptions["expiresIn"];
-export class Jwt_Service {
-  accessToken = (payload: payload_jwt): string => {
+const refreshExpiresTime = env.REFRESH_EXPIRES_IN as SignOptions["expiresIn"];
+export class JwtService {
+  accessToken = (payload: payloadJwt): string => {
     try {
       const t = jwt.sign(
         { id: payload.id, email: payload.email, role: payload.role },
-        access_token,
+        accessToken,
         { expiresIn: expiresTime },
       );
       return t;
@@ -22,8 +22,8 @@ export class Jwt_Service {
 
   refreshToken = (userId: string): string => {
     try {
-      const r = jwt.sign({ id: userId }, refresh_token, {
-        expiresIn: refresh_expires_time,
+      const r = jwt.sign({ id: userId }, refreshToken, {
+        expiresIn: refreshExpiresTime,
       });
       return r;
     } catch (err) {
@@ -33,7 +33,7 @@ export class Jwt_Service {
 
   verifyAccessToken = (token: string): string | JwtPayload => {
     try {
-      const isValidToken = jwt.verify(token, access_token);
+      const isValidToken = jwt.verify(token, accessToken);
       return isValidToken;
     } catch (err) {
       throw err;
@@ -41,7 +41,7 @@ export class Jwt_Service {
   };
   verifyRefreshToken = (token: string): string | JwtPayload => {
     try {
-      const isValidRefresh = jwt.verify(token, refresh_token);
+      const isValidRefresh = jwt.verify(token, refreshToken);
       return isValidRefresh;
     } catch (err) {
       throw err;
@@ -52,7 +52,7 @@ export class Jwt_Service {
     try {
       const decode = jwt.decode(token);
       if (decode === null) {
-        throw new Null_Object_Error();
+        throw new NullObjectError();
       }
       return decode;
     } catch (err) {

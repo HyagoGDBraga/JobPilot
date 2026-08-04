@@ -1,4 +1,4 @@
-export function get_Endpoint(path: string): MethodDecorator {
+export function getEndpoint(path: string): MethodDecorator {
 
     return (
         target,

@@ -2,8 +2,8 @@ import { HealthCheckResult, InitializePromise } from "../../../../types";
 import { RabbitMQ } from "../rabbit-mq";
 import { env } from "../../../../env/env.zod";
 import { UndefinedError } from "../../../../errors/undefined-error";
-const rabbit_URL = env.RABBITMQ_URL as string;
-export class RabbitMQ_Service {
+const rabbitUrl = env.RABBITMQ_URL as string;
+export class RabbitMQService {
   private readonly rabbitMq: RabbitMQ;
   constructor(rabbitMq: RabbitMQ) {
     this.rabbitMq = rabbitMq;

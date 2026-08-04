@@ -1,4 +1,4 @@
-export function C_router(path: string): ClassDecorator {
+export function CRouter(path: string): ClassDecorator {
     return (target) => {
         Reflect.defineMetadata(
             "controller:path",
