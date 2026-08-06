@@ -1,55 +1,26 @@
 import { supabaseClient } from "./../../database/supabase/client/supabase-client";
 import { SupabaseClient } from "@supabase/supabase-js";
-import { ServiceDataResponse, OperationResult } from "../../../types";
+import { ServiceDataResponse, OperationResult, SupabasePublicURLStorage } from "../../../types";
 import { UploadError } from "../../../errors/upload-image-error";
 import { getCurrentDate } from "../../../helpers/date-helper";
+import { SupabaseStorage } from "../interface/storageInterface";
+import { ContentType } from "../types";
+import { UndefinedError } from "../../../errors/undefined-error";
 
-const contentType = {
-  JPEG: "image/jpeg",
-  PNG: "image/png",
-  PDF: "application/pdf",
-  CSV: "application/csv",
-} as const;
-
-type ContentType = (typeof contentType)[keyof typeof contentType];
-
-export class SupabaseProvider {
+export class SupabaseProvider implements SupabaseStorage {
   private readonly client: SupabaseClient;
   constructor() {
     this.client = supabaseClient;
   }
-  uploadImage = async (
-    file: Buffer,
-    path: string,
-    contentType: ContentType,
-  ): Promise<ServiceDataResponse> => {
-    try {
-      const { data, error } = await this.client.storage
-        .from("images")
-        .upload(path, file, { contentType, upsert: true });
-      if (error) {
-        throw new UploadError();
-      }
-      return {
-        success: true,
-        status: 200,
-        result: data,
-        message: `Ok, upload has been works`,
-        timestamp: getCurrentDate(),
-      };
-    } catch (err) {
-      throw err;
-    }
-  };
-
-  uploadPdfOrCsv = async (
+    upload = async (
+    bucket: string,  
     path: string,
     file: Buffer,
     contentType: ContentType,
   ): Promise<ServiceDataResponse> => {
     try {
       const { data, error } = await this.client.storage
-        .from("PDF-CSV files")
+        .from(bucket)
         .upload(path, file, { contentType, upsert: true });
       if (error) {
         throw new UploadError();
@@ -65,10 +36,10 @@ export class SupabaseProvider {
     }
   };
 
-  removePdfOrCsv = async (path: string): Promise<OperationResult> => {
+  delete = async (path: string, bucket: string): Promise<OperationResult> => {
     try {
       const { error } = await this.client.storage
-        .from("PDF-CSV files")
+        .from(bucket)
         .remove([path]);
 
       return {
@@ -79,15 +50,17 @@ export class SupabaseProvider {
       throw err;
     }
   };
-  removeImage = async (path: string): Promise<OperationResult> => {
-    try {
-      const { error } = await this.client.storage.from("images").remove([path]);
-      return {
-        success: !error,
-        message: error ? `Path has been removed` : `Failed on remove path`,
+getPublicUrl = async(path: string, bucket: string): Promise<SupabasePublicURLStorage> => {
+    try{
+      const {data} = await this.client.storage.from(bucket).getPublicUrl(path);
+      if(!data){
+        throw new UndefinedError();
       };
-    } catch (err) {
+      return {
+        publicUrl: data.publicUrl,
+      };
+    } catch(err){
       throw err;
-    }
-  };
+    };
+}
 }

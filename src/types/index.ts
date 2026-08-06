@@ -19,6 +19,10 @@ export type OperationResult = {
   error?: Error;
 };
 
+export type SupabasePublicURLStorage = {
+  publicUrl: string;
+};
+
 export type HealthCheckResult<T = any> = {
   result: T;
   message?: string;

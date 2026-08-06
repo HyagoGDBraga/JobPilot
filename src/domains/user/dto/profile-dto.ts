@@ -19,6 +19,7 @@ export class ProfileDTO {
   @IsString()
   title?: string;
   
+  @IsOptional()
   @IsUUID()
   profession_id?: string;
   

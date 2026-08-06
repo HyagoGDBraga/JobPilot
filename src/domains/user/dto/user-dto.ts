@@ -66,3 +66,17 @@ export class PatchUserDTO {
   @IsBoolean()
   isOnline?: boolean;
 }
+
+
+export class UserResponse {
+ @IsUUID()
+  id!: string;
+  @IsString()
+  name!: string;
+  @IsEmail()
+  email!: string;
+  @IsString()
+  profile_id!: string;
+   @IsEnum(ROLE)
+    role!: Role;
+}
