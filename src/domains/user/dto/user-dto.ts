@@ -7,6 +7,7 @@ import {
   IsUUID,
   IsEnum,
 } from "class-validator";
+import type { Role } from "../../../helpers/role-helper";
 import { ROLE } from "../../../helpers/role-helper";
 export class UserDTO {
   @IsUUID()
@@ -24,7 +25,7 @@ export class UserDTO {
   @IsBoolean()
   isOnline!: boolean;
   @IsEnum(ROLE)
-  role!: ROLE;
+  role!: Role;
 }
 
 export class CreateUserDTO {
