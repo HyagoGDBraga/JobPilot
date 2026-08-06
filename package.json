@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@huggingface/inference": "^4.13.23",
-    "@prisma/client": "^7.8.0",
+    "@supabase/server": "^1.4.1",
     "amqplib": "^0.10.9",
     "bcrypt": "^6.0.0",
     "class-transformer": "^0.5.1",

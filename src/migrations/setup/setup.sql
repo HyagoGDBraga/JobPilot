@@ -1,21 +1,9 @@
--- database/setup.sql
+-- src/migrations/setup/setup.sql
 
--- Extensões
-\i schema/extensions.sql
+CREATE EXTENSION IF NOT EXISTS "pgcrypto";
 
--- Tabelas independentes (não dependem de outras)
-\i schema/professions.sql
-\i schema/locations.sql
-\i schema/skills.sql
+\i /migrations/locations.sql
+\i /migrations/professions.sql
+\i /migrations/users.sql
 
--- Tabelas principais
-\i schema/users.sql
-
--- Tabelas dependentes
-\i schema/user_profiles.sql
-\i schema/user_skills.sql
-
--- Dados iniciais
-\i seeds/professions.seed.sql
-\i seeds/skills.seed.sql
-\i seeds/locations.seed.sql
+\i /migrations/user_profiles.sql

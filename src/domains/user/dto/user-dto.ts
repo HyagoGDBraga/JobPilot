@@ -5,7 +5,9 @@ import {
   IsStrongPassword,
   IsBoolean,
   IsUUID,
+  IsEnum,
 } from "class-validator";
+import { ROLE } from "../../../helpers/role-helper";
 export class UserDTO {
   @IsUUID()
   id!: string;
@@ -21,6 +23,8 @@ export class UserDTO {
   lastLogin!: Date;
   @IsBoolean()
   isOnline!: boolean;
+  @IsEnum(ROLE)
+  role!: ROLE;
 }
 
 export class CreateUserDTO {

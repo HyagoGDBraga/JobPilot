@@ -14,17 +14,26 @@ export class ProfileDTO {
   @IsOptional()
   @IsString()
   bio?: string;
+  
   @IsOptional()
   @IsString()
   title?: string;
+  
   @IsUUID()
   profession_id?: string;
+  
   @IsOptional()
   @IsArray()
   user_skills?: string[];
+  
   @IsOptional()
   @IsInt()
   experienceYears?: number;
+
+  @IsOptional()
+  @IsString()
+  avatarUrl?: string;
+  
   @IsOptional()
   @IsString()
   location?: string;

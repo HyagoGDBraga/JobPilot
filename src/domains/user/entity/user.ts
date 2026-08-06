@@ -1,11 +1,7 @@
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  OneToOne,
-} from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, OneToOne } from "typeorm";
 import { UserProfile } from "./user-profile";
-@Entity('users')
+import { ROLE } from "../../../helpers/role-helper";
+@Entity("users")
 export class User {
   @PrimaryGeneratedColumn("uuid")
   public id!: string;
@@ -16,8 +12,10 @@ export class User {
   public email!: string;
   @Column({ type: "varchar" })
   public password!: string;
-  @Column({type: 'timestamp', default: ()=> "CURRENT_TIMESTAMP"})
+  @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
   public lastLogin!: Date;
-  @Column({type: "boolean", default: false})
+  @Column({ type: "boolean", default: false })
   public isOnline!: boolean;
+  @Column({ type: "enum", default: ROLE.USER })
+  public role!: ROLE.USER;
 }

@@ -1,14 +1,15 @@
-import dotenv from 'dotenv';
+import dotenv from "dotenv";
 import z from "zod";
 const nodeEnv = process.env.NODE_ENV ?? "development";
 
 dotenv.config({
-    path: `.env.${nodeEnv}`
+  path: `.env.${nodeEnv}`,
 });
 
-
 export const envZod = z.object({
-  NODE_ENV: z.enum(["development", "production", "test"]).default("development"),
+  NODE_ENV: z
+    .enum(["development", "production", "test"])
+    .default("development"),
   HF_TOKEN: z.string(),
 
   PORT: z.coerce.number().default(3000),
@@ -18,6 +19,11 @@ export const envZod = z.object({
   DATABASE_USER: z.string(),
   DATABASE_PASSWORD: z.string(),
   DATABASE_NAME: z.string(),
+
+  SUPABASE_URL: z.string(),
+  SUPABASE_PUBLISHABLE_KEY: z.string(),
+  SUPABASE_SECRET_KEY: z.string(),
+  SUPABASE_JWKS_URL: z.string(),
 
   JWT: z.string().min(32),
   JWT_REFRESH: z.string().min(32),
@@ -31,12 +37,11 @@ export const envZod = z.object({
   SERVER_URL: z.string(),
   REDIS_URL: z.string(),
   RABBITMQ_URL: z.string(),
-
   LOG_LEVEL: z.enum(["debug", "info", "warn", "error"]).default("info"),
 });
 
 export const env = envZod.parse(process.env);
 
-export const allowedDomains = env.ALLOWED_DOMAINS
-  .split(",")
-  .map((domain) => domain.trim());
+export const allowedDomains = env.ALLOWED_DOMAINS.split(",").map((domain) =>
+  domain.trim(),
+);

@@ -1,8 +1,17 @@
-CREATE TABLE users (
+CREATE TYPE user_role AS ENUM ('USER', 'ADMIN');
+
+CREATE TABLE IF NOT EXISTS users (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+
     name VARCHAR(255) NOT NULL,
+
     email VARCHAR(255) NOT NULL UNIQUE,
+
     password VARCHAR(255) NOT NULL,
+
     last_login TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    is_online BOOLEAN NOT NULL DEFAULT FALSE
+
+    is_online BOOLEAN NOT NULL DEFAULT FALSE,
+
+    role user_role NOT NULL DEFAULT 'USER'
 );

@@ -20,7 +20,8 @@ export class UserProfile {
   @OneToOne(() => User, (user_id) => user_id.id)
   @JoinColumn()
   public userId!: User;
-
+  @Column({ type: "text", length: 300 })
+  public avatarUrl!: string;
   @Column({ type: "text" })
   public bio?: string;
   @Column({ type: "text" })
@@ -28,15 +29,14 @@ export class UserProfile {
   @ManyToMany(() => Profession, (profession_id) => profession_id.id)
   public profession_id?: Profession;
 
-  @OneToMany(()=> UserSkill, (user_skills)=> user_skills.userProfile )
+  @OneToMany(() => UserSkill, (user_skills) => user_skills.userProfile)
   public user_skills?: UserSkill[];
   @Column({ type: "int", default: 0 })
   public experienceYears?: number;
 
-  @ManyToOne(()=> Location)
-  @JoinColumn({name: "location_id"})
+  @ManyToOne(() => Location)
+  @JoinColumn({ name: "location_id" })
   public location?: Location;
-
 }
 
 /* 
