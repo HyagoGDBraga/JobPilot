@@ -6,24 +6,33 @@ import {
   IsBoolean,
   IsUUID,
   IsEnum,
-} from "class-validator";
-import type { Role } from "../../../helpers/role-helper";
-import { ROLE } from "../../../helpers/role-helper";
+} from 'class-validator';
+
+import type { Role } from '../../../helpers/role-helper';
+import { ROLE } from '../../../helpers/role-helper';
+
 export class UserDTO {
   @IsUUID()
   id!: string;
+
   @IsString()
   name!: string;
+
   @IsEmail()
   email!: string;
+
   @IsString()
-  profile_id!: string;
+  profile_id?: string;
+
   @IsStrongPassword()
   password!: string;
+
   @IsDate()
   lastLogin!: Date;
+
   @IsBoolean()
   isOnline!: boolean;
+
   @IsEnum(ROLE)
   role!: Role;
 }
@@ -37,6 +46,9 @@ export class CreateUserDTO {
 
   @IsStrongPassword()
   password!: string;
+
+  @IsEnum(ROLE)
+  role!: Role;
 }
 
 export class UpdateUserDTO {
@@ -53,30 +65,39 @@ export class UpdateUserDTO {
 export class PatchUserDTO {
   @IsUUID()
   id!: string;
+
   @IsString()
   name?: string;
+
   @IsEmail()
   email?: string;
+
   @IsString()
   profile_id?: string;
+
   @IsStrongPassword()
   password?: string;
+
   @IsDate()
   lastLogin?: Date;
+
   @IsBoolean()
   isOnline?: boolean;
 }
 
-
 export class UserResponse {
- @IsUUID()
+  @IsUUID()
   id!: string;
+
   @IsString()
   name!: string;
+
   @IsEmail()
   email!: string;
+
   @IsString()
-  profile_id!: string;
-   @IsEnum(ROLE)
-    role!: Role;
+  profile_id?: string;
+
+  @IsEnum(ROLE)
+  role!: Role;
 }

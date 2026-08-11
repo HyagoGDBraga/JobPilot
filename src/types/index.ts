@@ -1,3 +1,5 @@
+import { UserResponse } from "../domains/user/dto/user-dto";
+
 export type ServiceResult<T = void> = {
   success: boolean;
   status: number;
@@ -18,6 +20,11 @@ export type OperationResult = {
   message?: string;
   error?: Error;
 };
+
+export type ServiceCache<T = UserResponse> = {
+    userService: T[];
+    userCache: string | null;
+}
 
 export type SupabasePublicURLStorage = {
   publicUrl: string;

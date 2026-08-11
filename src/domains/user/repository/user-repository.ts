@@ -1,7 +1,9 @@
 import { User } from "../entity/user";
-import { Repository } from "typeorm";
+import { DeepPartial, Repository } from "typeorm";
 import dataSource from "../../../infra/database/dbsource";
 import { pagination } from "../../../helpers/pagination.helper";
+import { QueryDeepPartialEntity } from "typeorm/query-builder/QueryPartialEntity";
+
 export class UserRepository {
   private readonly userRepository: Repository<User>;
   constructor() {
@@ -17,25 +19,32 @@ export class UserRepository {
     return object;
   };
 
-  createUser = async (data: User): Promise<User> => {
+  createUser = async (data: DeepPartial<User>): Promise<User> => {
     const object = await this.userRepository.create(data);
     return this.userRepository.save(object);
   };
 
-  updateUser = async (id: string, data: User): Promise<User | null> => {
-    const user = await this.getUserById(id);
-    await this.userRepository.update(id, data);
-    return user;
-  };
+ 
+updateUser = async (
+  id: string,
+  data: QueryDeepPartialEntity<User>,
+): Promise<User | null> => {
+  const result = await this.userRepository.update(id, data);
+  if (!result.affected) return null;
+  return this.getUserById(id);
+};
 
-  deleteUser = async(id: string): Promise<boolean> =>{
-    await this.userRepository.delete(id);
-    return true;
-  };
+patchUser = async (
+  id: string,
+  data: QueryDeepPartialEntity<User>,
+): Promise<User | null> => {
+  const result = await this.userRepository.update(id, data);
+  if (!result.affected) return null;
+  return this.getUserById(id);
+};
 
-  patchUser = async (id: string, data: Partial<User>): Promise<User | null> => {
-    const user = await this.getUserById(id);
-    await this.userRepository.update(id, data);
-    return user;
-  };
+deleteUser = async (id: string): Promise<boolean> => {
+  const result = await this.userRepository.delete(id);
+  return !!result.affected;   // hoje retorna true mesmo sem deletar nada
+};
 }

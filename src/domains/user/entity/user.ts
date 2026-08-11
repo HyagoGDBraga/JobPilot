@@ -9,7 +9,7 @@ export class User {
   @Column({ type: "varchar" })
   public name!: string;
   @OneToOne(() => UserProfile, (user_profile_id) => user_profile_id.userId)
-  public profile_id!: UserProfile;
+  public profile_id?: UserProfile;
   @Column({ type: "varchar", unique: true })
   public email!: string;
   @Column({ type: "varchar" })
