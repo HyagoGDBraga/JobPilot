@@ -151,9 +151,8 @@ export class UserProfileService implements IProfileInterface {
       if (!id || !data) {
         throw new UndefinedError();
       };
-      const userPatch: UserProfile = {
+      const userPatch: Partial<UserProfile> = {
         id: data.id ?? "",
-        userId: ({id: data.userId} as User),
         avatarUrl: data.avatarUrl ?? "",
         bio: data.bio,
         location: data.location ? ({id: data.location} as Location) : undefined,

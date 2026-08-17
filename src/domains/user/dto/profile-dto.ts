@@ -85,8 +85,6 @@ export class PatchProfileDTO {
   @IsUUID()
   id!: string;
   @IsUUID()
-  @IsOptional()
-  userId?: string;
   @IsString()
   bio?: string;
   @IsOptional()
