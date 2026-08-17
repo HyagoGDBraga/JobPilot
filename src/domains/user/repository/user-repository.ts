@@ -45,6 +45,6 @@ patchUser = async (
 
 deleteUser = async (id: string): Promise<boolean> => {
   const result = await this.userRepository.delete(id);
-  return !!result.affected;   // hoje retorna true mesmo sem deletar nada
+  return !!result.affected;   // hoje retorna true mesmo sem deletar nada, oq é um pouco rsrs
 };
 }

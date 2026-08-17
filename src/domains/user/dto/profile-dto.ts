@@ -14,27 +14,24 @@ export class ProfileDTO {
   @IsOptional()
   @IsString()
   bio?: string;
-  
-  @IsOptional()
-  @IsString()
-  title?: string;
-  
-  @IsOptional()
-  @IsUUID()
-  profession_id?: string;
-  
-  @IsOptional()
-  @IsArray()
-  user_skills?: string[];
-  
-  @IsOptional()
-  @IsInt()
-  experienceYears?: number;
 
   @IsOptional()
   @IsString()
+  title?: string;
+  @IsOptional()
+  @IsString()
   avatarUrl?: string;
-  
+  @IsOptional()
+  @IsUUID()
+  profession_id?: string;
+
+  @IsOptional()
+  @IsArray()
+  user_skills?: string[];
+
+  @IsOptional()
+  @IsInt()
+  experienceYears?: number;
   @IsOptional()
   @IsString()
   location?: string;
@@ -49,6 +46,9 @@ export class CreateUserProfileDTO {
   title?: string;
   @IsUUID()
   profession_id?: string;
+  @IsString()
+  avatarUrl?: string;
+  @IsOptional()
   @IsOptional()
   @IsArray()
   user_skills?: string[];
@@ -61,13 +61,42 @@ export class CreateUserProfileDTO {
 }
 
 export class UpdateUserProfileDTO {
+  @IsUUID()
+  id!: string;
+  @IsUUID()
   userId!: string;
+  @IsString()
+  avatarUrl!: string;
+  @IsString()
+  bio!: string;
+  @IsString()
+  title!: string;
+  @IsUUID()
+  profession_id?: string;
+  @IsArray()
+  user_skills!: string[];
+  @IsInt()
+  experienceYears!: number;
+  @IsString()
+  location!: string;
+}
+
+export class PatchProfileDTO {
+  @IsUUID()
+  id!: string;
+  @IsUUID()
+  @IsOptional()
+  userId?: string;
+  @IsString()
   bio?: string;
   @IsOptional()
   @IsString()
   title?: string;
   @IsUUID()
   profession_id?: string;
+  @IsOptional()
+  @IsString()
+  avatarUrl?: string;
   @IsOptional()
   @IsArray()
   user_skills?: string[];
@@ -79,12 +108,48 @@ export class UpdateUserProfileDTO {
   location?: string;
 }
 
-export class CreateUserDTO_RESPONSE {
-  @IsObject()
-  create_user!: CreateUserProfileDTO;
-}
+export class ProfileResponse {
+  @IsUUID()
+  id!: string;
+  @IsUUID()
+  userId!: string;
+  @IsOptional()
+  @IsString()
+  bio?: string;
 
-export class UpdateUserDTO_RESPONSE {
-  @IsObject()
-  update_user_profile!: UpdateUserProfileDTO;
+  @IsOptional()
+  @IsString()
+  title?: string;
+
+  @IsOptional()
+  @IsUUID()
+  profession_id?: string;
+
+  @IsOptional()
+  @IsArray()
+  user_skills?: string[];
+
+  @IsOptional()
+  @IsInt()
+  experienceYears?: number;
+
+  @IsOptional()
+  @IsString()
+  avatarUrl?: string;
+
+  @IsOptional()
+  @IsString()
+  location?: string;
+};
+
+
+export class SimpleProfile {
+  @IsUUID()
+  id!: string;
+  @IsUUID()
+  @IsOptional()
+  profession_id?: string;
+   @IsUUID()
+   @IsOptional()
+  userId?: string;
 }

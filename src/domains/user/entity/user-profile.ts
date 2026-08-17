@@ -12,6 +12,7 @@ import {
 } from "typeorm";
 import { User } from "./user";
 import { Profession } from "../../profession/entity/profession-entity";
+import { Location } from "../../location/entity/location.entity";
 import { UserSkill } from "./user-skill-entity";
 @Entity("user-profile")
 export class UserProfile {

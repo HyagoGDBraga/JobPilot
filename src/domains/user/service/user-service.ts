@@ -51,7 +51,6 @@ export class UserService implements IUserInterface {
         role: data.role,
       } as const;
       const user = await this.userRepository.createUser(userData);
-
       const response = this.toResponse(user);
 
       await this.redis.setKey(

@@ -2,7 +2,10 @@ import dataSource from "../../../infra/database/dbsource";
 import { UserProfile } from "../entity/user-profile";
 import { Repository } from "typeorm";
 import { pagination } from "../../../helpers/pagination.helper";
+
+type UserProfileWithoutId = Omit<UserProfile, 'id'>;
 export class ProfileRepository {
+
     private readonly profile_repo: Repository<UserProfile>;
     constructor(){
         this.profile_repo = dataSource.getRepository(UserProfile);
@@ -18,7 +21,7 @@ export class ProfileRepository {
           return object;
         };
       
-        createUser = async (data: UserProfile): Promise<UserProfile> => {
+        createUser = async (data: UserProfileWithoutId): Promise<UserProfile> => {
           const object = await this.profile_repo.create(data);
           return this.profile_repo.save(object);
         };
