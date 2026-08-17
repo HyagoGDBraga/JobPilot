@@ -135,22 +135,10 @@ export class UserProfileService implements IProfileInterface {
         throw new NullObjectError();
       }
       const profile = await this.profileRepo.getUserById(id);
-      if (profile === undefined) {
-        throw new UndefinedError();
+      if (profile === null) {
+        throw new NullObjectError();
       }
-      const profileUser: ProfileResponse = {
-        id: profile?.id ?? "",
-        bio: profile?.bio,
-        avatarUrl: profile?.avatarUrl,
-        userId: profile?.userId?.id ?? "",
-        title: profile?.title,
-        user_skills: profile?.user_skills?.flatMap(
-          (skills) => skills.skills ?? [],
-        ),
-        location: profile?.location?.id ?? "",
-        experienceYears: profile?.experienceYears,
-      };
-      return profileUser;
+      return this.responseTo(profile);
     } catch (err) {
       throw err;
     }
@@ -160,27 +148,27 @@ export class UserProfileService implements IProfileInterface {
     data: Partial<PatchProfileDTO>,
   ): Promise<ProfileResponse | null> => {
     try {
-      if (!id || data) {
+      if (!id || !data) {
         throw new UndefinedError();
+      };
+      const userPatch: UserProfile = {
+        id: data.id ?? "",
+        userId: ({id: data.userId} as User),
+        avatarUrl: data.avatarUrl ?? "",
+        bio: data.bio,
+        location: data.location ? ({id: data.location} as Location) : undefined,
+        title: data.title,
+        profession_id: data.profession_id ? ({id: data.profession_id} as Profession) : undefined,
+        experienceYears: data.experienceYears,
+         user_skills: data.user_skills?.map(
+          (skill) => ({ skills: [skill] }) as UserSkill,
+        ),
       }
-      const profileUser = await this.profileRepo.patchUser(id, data);
+      const profileUser = await this.profileRepo.patchUser(id, userPatch);
       if (profileUser === null) {
         throw new NullObjectError();
       }
-
-      const profile: ProfileResponse = {
-        id: profileUser?.id ?? "",
-        userId: profileUser?.userId.id ?? "",
-        avatarUrl: profileUser.avatarUrl ?? "",
-        user_skills: profileUser.user_skills?.flatMap(
-          (skills) => skills.skills ?? [],
-        ),
-        location: profileUser?.location?.id ?? "",
-        experienceYears: profileUser?.experienceYears,
-        title: profileUser?.title,
-        bio: profileUser?.bio,
-      };
-      return this.responseTo(profile);
+      return this.responseTo(profileUser);
     } catch (err) {
       throw err;
     }
