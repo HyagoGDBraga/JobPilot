@@ -44,12 +44,13 @@ export class UserService implements IUserInterface {
   create = async (data: CreateUserDTO): Promise<UserResponse> => {
     try {
       const hashP = await this.bcryipt.hash256(data.password, 10);
-      const userData = {
+      const userData: Omit<CreateUserDTO, "id"> = {
         email: data.email,
         name: data.name,
         password: (data.password = hashP),
         role: data.role,
       } as const;
+      
       const user = await this.userRepository.createUser(userData);
       const response = this.toResponse(user);
 

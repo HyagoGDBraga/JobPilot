@@ -4,6 +4,8 @@ import { IProfileInterface } from "../interface/IProfile-Interface";
 import { UserProfile } from "../entity/user-profile";
 import { User } from "../entity/user";
 import { Profession } from "../../profession/entity/profession-entity";
+import { SupabaseProvider } from "../../../infra/storage/service/supabase-storage";
+import { Buffer } from "node:buffer";
 import { Location } from "../../location/entity/location.entity";
 import {
   CreateUserProfileDTO,
@@ -17,10 +19,13 @@ import { OperationResult } from "../../../types";
 import { UserResponse } from "../dto/user-dto";
 import { UndefinedError } from "../../../errors/undefined-error";
 import { NullObjectError } from "../../../errors/null-object-error";
+import { ContentType } from "../../../infra/storage/types";
 export class UserProfileService implements IProfileInterface {
   private readonly profileRepo: ProfileRepository;
-  constructor(profileRepo: ProfileRepository) {
+  private readonly supabaseProvider: SupabaseProvider
+  constructor(profileRepo: ProfileRepository, supabaseProvider: SupabaseProvider) {
     this.profileRepo = profileRepo;
+    this.supabaseProvider = supabaseProvider
   }
 
   responseTo = (data: UserProfile): ProfileResponse => {
@@ -42,15 +47,21 @@ export class UserProfileService implements IProfileInterface {
 
   createProfile = async (
     data: CreateUserProfileDTO,
+    bucket: string,  
+    path: string,
+    file: Buffer,
+    contentType: ContentType,
   ): Promise<ProfileResponse | null> => {
     try {
       if (data === undefined) {
         throw new UndefinedError();
       }
+      await this.supabaseProvider.upload(bucket, path, file, contentType)
+      const publicUrl = await this.supabaseProvider.getPublicUrl(path, bucket);
 
       const profileData: Omit<UserProfile, "id"> = {
         bio: data.bio,
-        avatarUrl: data.avatarUrl ?? "",
+        avatarUrl: (await publicUrl).publicUrl,
         experienceYears: data.experienceYears,
         location: data.location
           ? ({ id: data.location } as Location)
@@ -63,8 +74,7 @@ export class UserProfileService implements IProfileInterface {
         user_skills: data.user_skills?.map(
           (skill) => ({ skills: [skill] }) as UserSkill,
         ),
-      };
-
+      } as const;
       const create = await this.profileRepo.createUser(profileData);
       const response = this.responseTo(create);
       return response;
@@ -146,14 +156,22 @@ export class UserProfileService implements IProfileInterface {
   patchProfile = async (
     id: string,
     data: Partial<PatchProfileDTO>,
+    bucket: string, 
+    path: string,
+    file: Buffer,
+    contentType: ContentType
   ): Promise<ProfileResponse | null> => {
     try {
       if (!id || !data) {
         throw new UndefinedError();
       };
+      await this.supabaseProvider.upload(bucket, path, file, contentType);
+      const publicUrl = this.supabaseProvider.getPublicUrl(bucket, path);
+
+
       const userPatch: Partial<UserProfile> = {
         id: data.id ?? "",
-        avatarUrl: data.avatarUrl ?? "",
+        avatarUrl: (await publicUrl).publicUrl ?? "",
         bio: data.bio,
         location: data.location ? ({id: data.location} as Location) : undefined,
         title: data.title,
@@ -175,16 +193,23 @@ export class UserProfileService implements IProfileInterface {
   updateProfile = async (
     id: string,
     data: UpdateUserProfileDTO,
+     bucket: string,
+    path: string,
+    file: Buffer,
+    contentType: ContentType,
   ): Promise<ProfileResponse | null> => {
     try {
       if (!id || !data) {
         throw new UndefinedError();
       }
+
+        await this.supabaseProvider.upload(bucket, path, file, contentType);
+      const publicUrl = this.supabaseProvider.getPublicUrl(bucket, path);
       const OmitUserId = {
         id: data.id ?? "",
         userId: { id: data.userId } as User,
         bio: data.bio,
-        avatarUrl: data.avatarUrl,
+        avatarUrl: (await publicUrl).publicUrl,
         title: data.title,
         location: data.location
           ? ({ id: data.location } as Location)
