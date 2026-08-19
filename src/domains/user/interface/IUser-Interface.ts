@@ -1,4 +1,4 @@
-import { OperationResult, ServiceCache } from '../../../types';
+import { OperationResult, ServiceUserCache } from '../../../types';
 
 import {
   CreateUserDTO,
@@ -15,7 +15,7 @@ export interface IUserInterface {
   get(
     page: number,
     limit: number,
-  ): Promise<ServiceCache | null>;
+  ): Promise<ServiceUserCache | null>;
 
   getById(
     id: string,

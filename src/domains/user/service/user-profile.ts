@@ -16,16 +16,18 @@ import {
   UpdateUserProfileDTO,
 } from "../dto/profile-dto";
 import { OperationResult } from "../../../types";
-import { UserResponse } from "../dto/user-dto";
 import { UndefinedError } from "../../../errors/undefined-error";
 import { NullObjectError } from "../../../errors/null-object-error";
 import { ContentType } from "../../../infra/storage/types";
 export class UserProfileService implements IProfileInterface {
   private readonly profileRepo: ProfileRepository;
-  private readonly supabaseProvider: SupabaseProvider
-  constructor(profileRepo: ProfileRepository, supabaseProvider: SupabaseProvider) {
+  private readonly supabaseProvider: SupabaseProvider;
+  constructor(
+    profileRepo: ProfileRepository,
+    supabaseProvider: SupabaseProvider,
+  ) {
     this.profileRepo = profileRepo;
-    this.supabaseProvider = supabaseProvider
+    this.supabaseProvider = supabaseProvider;
   }
 
   responseTo = (data: UserProfile): ProfileResponse => {
@@ -47,7 +49,7 @@ export class UserProfileService implements IProfileInterface {
 
   createProfile = async (
     data: CreateUserProfileDTO,
-    bucket: string,  
+    bucket: string,
     path: string,
     file: Buffer,
     contentType: ContentType,
@@ -56,7 +58,7 @@ export class UserProfileService implements IProfileInterface {
       if (data === undefined) {
         throw new UndefinedError();
       }
-      await this.supabaseProvider.upload(bucket, path, file, contentType)
+      await this.supabaseProvider.upload(bucket, path, file, contentType);
       const publicUrl = await this.supabaseProvider.getPublicUrl(path, bucket);
 
       const profileData: Omit<UserProfile, "id"> = {
@@ -156,31 +158,34 @@ export class UserProfileService implements IProfileInterface {
   patchProfile = async (
     id: string,
     data: Partial<PatchProfileDTO>,
-    bucket: string, 
+    bucket: string,
     path: string,
     file: Buffer,
-    contentType: ContentType
+    contentType: ContentType,
   ): Promise<ProfileResponse | null> => {
     try {
       if (!id || !data) {
         throw new UndefinedError();
-      };
+      }
       await this.supabaseProvider.upload(bucket, path, file, contentType);
       const publicUrl = this.supabaseProvider.getPublicUrl(bucket, path);
-
 
       const userPatch: Partial<UserProfile> = {
         id: data.id ?? "",
         avatarUrl: (await publicUrl).publicUrl ?? "",
         bio: data.bio,
-        location: data.location ? ({id: data.location} as Location) : undefined,
+        location: data.location
+          ? ({ id: data.location } as Location)
+          : undefined,
         title: data.title,
-        profession_id: data.profession_id ? ({id: data.profession_id} as Profession) : undefined,
+        profession_id: data.profession_id
+          ? ({ id: data.profession_id } as Profession)
+          : undefined,
         experienceYears: data.experienceYears,
-         user_skills: data.user_skills?.map(
+        user_skills: data.user_skills?.map(
           (skill) => ({ skills: [skill] }) as UserSkill,
         ),
-      }
+      };
       const profileUser = await this.profileRepo.patchUser(id, userPatch);
       if (profileUser === null) {
         throw new NullObjectError();
@@ -193,7 +198,7 @@ export class UserProfileService implements IProfileInterface {
   updateProfile = async (
     id: string,
     data: UpdateUserProfileDTO,
-     bucket: string,
+    bucket: string,
     path: string,
     file: Buffer,
     contentType: ContentType,
@@ -203,7 +208,7 @@ export class UserProfileService implements IProfileInterface {
         throw new UndefinedError();
       }
 
-        await this.supabaseProvider.upload(bucket, path, file, contentType);
+      await this.supabaseProvider.upload(bucket, path, file, contentType);
       const publicUrl = this.supabaseProvider.getPublicUrl(bucket, path);
       const OmitUserId = {
         id: data.id ?? "",
@@ -223,7 +228,7 @@ export class UserProfileService implements IProfileInterface {
         experienceYears: data.experienceYears,
       };
       const updated = await this.profileRepo.updateUser(id, OmitUserId);
-      if(updated === null){
+      if (updated === null) {
         throw new NullObjectError();
       }
       return this.responseTo(updated);

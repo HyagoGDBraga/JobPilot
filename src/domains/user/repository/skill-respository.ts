@@ -18,7 +18,7 @@ export class SkillRepository {
       return object;
     };
   
-    createUser = async (data: UserSkill): Promise<UserSkill> => {
+    createUser = async (data: Omit<UserSkill, "id">): Promise<UserSkill> => {
       const object = await this.skillRepository.create(data);
       return this.skillRepository.save(object);
     };

@@ -1,5 +1,5 @@
 import { RabbitMQService } from "./../../../infra/queue/rabbitmq/service/rabbit-mq.service";
-import { OperationResult, ServiceCache } from "../../../types";
+import { OperationResult, ServiceUserCache } from "../../../types";
 import {
   CreateUserDTO,
   PatchUserDTO,
@@ -70,7 +70,7 @@ export class UserService implements IUserInterface {
     }
   };
 
-  get = async (page: number, limit: number): Promise<ServiceCache | null> => {
+  get = async (page: number, limit: number): Promise<ServiceUserCache | null> => {
     try {
       const users = await this.userRepository.getUser(page, limit);
 

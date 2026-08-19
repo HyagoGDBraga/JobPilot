@@ -33,3 +33,14 @@ export class CreateUserSkillDTO_RESPONSE {
 export class UpdateUserSkillDTO_RESPONSE {
   update_user_skill!: UpdateUserSkillDTO;
 }
+;
+
+export class UserSkillResponseDTO {
+ @IsUUID()
+  id!: string;
+  @IsArray()
+  @IsOptional()
+  public skills?: string[];
+  @IsString()
+  public userProfile!: string;
+}

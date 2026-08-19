@@ -1,3 +1,5 @@
+import { ProfileResponse } from "../domains/user/dto/profile-dto";
+import { UserSkillResponseDTO } from "../domains/user/dto/skill-dto";
 import { UserResponse } from "../domains/user/dto/user-dto";
 
 export type ServiceResult<T = void> = {
@@ -21,9 +23,17 @@ export type OperationResult = {
   error?: Error;
 };
 
-export type ServiceCache<T = UserResponse> = {
+export type ServiceUserCache<T = UserResponse> = {
     userService: T[];
     userCache: string | null;
+}
+
+export type ServiceSkillCache<T = UserSkillResponseDTO> = {
+    userService: T[];
+}
+
+export type ServiceProfileCache<T = ProfileResponse> = {
+    userService: T[];
 }
 
 export type SupabasePublicURLStorage = {
